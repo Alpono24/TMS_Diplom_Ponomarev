@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="wrapper">
+    <h1>{{ title }}</h1>
+    <h1 class="title_page" style="color:red; margin-top: 150px; margin-bottom: 350px;">Вы действительно хотите удалить пост "{{ post.title }}"?</h1>
+    <form method="post">
+        {% csrf_token %}
+        <div class = 'pageEditPostButton'>
+            <div><a class="buttonSimp"  href="{% url 'blog:posts' %}">Нет, вернуться назад</a></div>
+            <div><button class="buttonDel"  type="submit">Да, удалить</button></div>
+        </div>
+    </form>
+</div>
+{% endblock %}

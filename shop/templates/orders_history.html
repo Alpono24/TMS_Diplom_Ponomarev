@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+
+{% block title %}История и статус заказов{% endblock %}
+
+{% block content %}
+<div class="wrapper wrapper_shop">
+
+    <div class="course_style">
+        <div>Курс NBRB BYN/USD: {{ rate_usd.rate_usd|floatformat:2 }}</div>
+        <div>Курс NBRB BYN/EUR: {{ rate_eur.rate_eur|floatformat:2 }}</div>
+    </div>
+
+    <h1 class="title_page title_page-orders-history">История и статус заказов пользователя:  {{ user_name }}</h1>
+    </br>
+    <h2>Для просмотра деталей заказа кликните на номер заказа</h2>
+    {% if orders %}
+        <table class="product__order-table">
+            <thead class="product__order-table-header">
+                <tr>
+                    <th style="border:1px solid black;">№ заказа</th>
+                    <th style="border:1px solid black;">Сумма</th>
+                    <th style="border:1px solid black;">Дата создания</th>
+                    <th style="border:1px solid black;">Статус</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                    <tr>
+                        <td style="border:1px solid black;">
+                         <a href="{% url 'shop:order_history_details' order.pk %}">{{ order.pk }}</a>
+                        </td>
+                        <td style="border:1px solid black;">{{ order.total_amount|mul:rate_usd.rate_usd|floatformat:2}} Br</td>
+                        <td style="border:1px solid black;">{{ order.created_at|date:"Y-m-d H:i:s" }}</td>
+                        <td style="border:1px solid black;">{{ order.get_status_display }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+
+        <div style="margin-bottom:150px" class="product__order-total-amount">
+            <strong>Общая сумма всех заказов:</strong> {{ total_sum |mul:rate_usd.rate_usd|floatformat:2}} Br
+        </div>
+    {% else %}
+        <div class="product__empty-full-basket-wrapper">
+            <div class="product__description-empty-basket"><p>У вас пока нет заказов.</p></div>
+        </div>
+    {% endif %}
+
+    <div class="product__empty-full-basket-wrapper">
+        <a href="{% url 'shop:cart_view' %}" class="product__button product__button-cont">Корзина</a>
+        <a href="{% url 'shop:products' %}" class="product__button product__button-cont">Продолжить покупки</a>
+    </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,41 @@
+# Exported from Render on 2026-02-01T14:00:37Z
+version: "1"
+projects:
+- name: My project
+  environments:
+  - name: alpono24_env
+    services:
+    - type: web
+      name: BlogShopMusik
+      runtime: docker
+      repo: https://github.com/Alpono24/logShopMusik
+      plan: starter
+      envVars:
+      - key: REDIS_URL
+        sync: false
+      - key: SECRET_KEY
+        sync: false
+      - key: POSTGRES_USER
+        sync: false
+      - key: POSTGRES_PORT
+        sync: false
+      - key: POSTGRES_PASSWORD
+        sync: false
+      - key: POSTGRES_NAME
+        sync: false
+      - key: POSTGRES_HOST
+        sync: false
+      - key: EMAIL_HOST_USER
+        sync: false
+      - key: EMAIL_HOST_PASSWORD
+        sync: false
+      - key: BEBUG
+        sync: false
+      - key: USE_TZ
+        sync: false
+      - key: TIME_ZONE
+        sync: false
+      region: virginia
+      dockerContext: .
+      dockerfilePath: ./Dockerfile
+      autoDeployTrigger: commit

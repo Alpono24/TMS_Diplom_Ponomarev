@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+
+<div class="wrapper">
+    <div class="posts__title-box">
+        <div><h1 class="title_page_blog title_page">{{ title }}</h1></div>
+        <div><a class="button__add-post" href="{% url 'blog:add_post' %}">Добавьте свою статью</a></div>
+    </div>
+
+    <form method="get" class="search-form">
+        <div class="search-container">
+            <input type="text" name="q" value="{{ request.GET.q }}" placeholder="Поиск по названию статьи или слову в статье..."
+                   class="search-input">
+            <button class="search-button" type="submit">🔍 Найти</button>
+        </div>
+    </form>
+
+    <div class="post__category_styles">
+        <strong>Категории:</strong>
+        <a class="post__category_buttons" href="{% url 'blog:posts' %}" class="xxx">Все</a>
+        {% for category in categories %}
+            <a class="post__category_buttons" href="?category={{ category.id }}" class="xxx">
+                {{ category.name }}
+            </a>
+        {% endfor %}
+    </div>
+
+    <div class="post__cards-wrapper">
+        {% for post in page_obj %}
+            <div class="post__card-wrapper">
+                    <div class="post__title-box">
+                        <div><h2 class="post__title-all">{{post.title}}</h2></div>
+                        <div><a class="post__button-more" href="{% url 'blog:post_detail' post.id %}">Подробнее</a></div>
+                    </div>
+                    <div class="post__body-img-wrapper">
+                        <div class="post__body">{{post.body}}<div>
+                        {% if post.image %}
+                        <div class='post__img'><img class='post__img_img' src="{{ post.image.url }}" alt="{{ post.name }}"></div>
+                        {% endif %}
+                    </div>
+                    <div class="post_info-blok">
+                        <div class="post_info">Автор публикации: {{post.author}}</div>
+                        <div class="post_info">Категория: {{post.category}}</div>
+                        <div class="post_info">Дата публикации: {{post.created_at|date:"d.m.y H:i"}}</div>
+                    </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <nav>
+      <ul class="pagination">
+        {% if page_obj.has_previous %}
+          <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Предыдущая</a></li>
+        {% endif %}
+        {% for num_page in page_obj.paginator.page_range %}
+          {% if num_page == page_obj.number %}
+              <li class="page-item active"><a class="page-link" href="#">{{ num_page }}</a></li>
+          {% else %}
+              <li class="page-item"><a class="page-link" href="?page={{ num_page }}">{{ num_page }}</a></li>
+          {% endif %}
+        {% endfor %}
+        {% if page_obj.has_next %}
+          <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Следующая</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+
+
+</div>
+{% endblock %}

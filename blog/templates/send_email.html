@@ -1,0 +1,22 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<div class="wrapper">
+    <title>Отправка письма</title>
+    <h1 style="margin-bottom: 50px;" class="title_page">Отправьте нам письмо!</h1>
+    <!-- Используем метод POST -->
+
+
+    <form class="send_emailForm" method="post" action="{% url 'blog:send_email_back' %}">
+        {% csrf_token %}
+        <label for="subject">Тема:</label>
+        <input class="textForm" type="text" id="subject" name="subject">
+
+        <label  class="label_send_emailForm" for="message" >Сообщение:</label>
+        <textarea style="margin-bottom: 50px;" class="textareaForm" id="message" name="message" placeholder='Приветствую. Хотел бы ...'></textarea>
+
+        <button class="buttonSimpForm out_forButtonUp" type="submit">Отправить письмо</button>
+    </form>
+</div>
+{% endblock %}

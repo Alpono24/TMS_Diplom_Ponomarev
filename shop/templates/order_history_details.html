@@ -1,0 +1,53 @@
+<!-- templates/order_details.html -->
+
+{% extends 'base.html' %}
+{% load custom_filters %}
+
+{% block title %}Детали заказа №{{ order.pk }}{% endblock %}
+
+{% block content %}
+<div class="wrapper wrapper_shop">
+
+    <div class="course_style">
+        <div>Курс NBRB BYN/USD: {{ rate_usd.rate_usd|floatformat:2 }}</div>
+        <div>Курс NBRB BYN/EUR: {{ rate_eur.rate_eur|floatformat:2 }}</div>
+    </div>
+
+    <h1 class="title_page title_page-order-details">Детали заказа №{{ order.pk }}</h1>
+    </br>
+
+    <table class="product__order-table">
+        <thead class="product__order-table-header">
+            <tr>
+                <th style="border:1px solid black;">Товар</th>
+                <th style="border:1px solid black;">Количество</th>
+                <th style="border:1px solid black;">Цена</th>
+                <th style="border:1px solid black;">Стоимость</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in order_items %}
+                <tr>
+                    <td style="border:1px solid black;">{{ item.product.name }}</td>
+                    <td style="border:1px solid black;">{{ item.quantity }}</td>
+                    <td style="border:1px solid black;">{{ item.product.price }} руб.</td>
+                    <td style="border:1px solid black;">{{ item.total_price }} руб.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div style="margin-bottom:150px" class="product__order-total-amount">
+        <strong>Общая сумма заказа:</strong> {{ order.total_amount }} руб.
+    </div>
+
+
+    <div class="product__empty-full-basket-wrapper">
+        <a href="{% url 'shop:cart_view' %}" class="product__button product__button-cont">Корзина</a>
+        <a href="{% url 'shop:orders_history' %}" class="product__button product__button-cont">Вернуться к истории заказов</a>
+        <a href="{% url 'shop:products' %}" class="product__button product__button-cont">Продолжить покупки</a>
+    </div>
+
+
+</div>
+{% endblock %}
