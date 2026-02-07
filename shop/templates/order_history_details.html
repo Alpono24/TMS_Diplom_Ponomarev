@@ -30,15 +30,15 @@
                 <tr>
                     <td style="border:1px solid black;">{{ item.product.name }}</td>
                     <td style="border:1px solid black;">{{ item.quantity }}</td>
-                    <td style="border:1px solid black;">{{ item.product.price }} руб.</td>
-                    <td style="border:1px solid black;">{{ item.total_price }} руб.</td>
+                    <td style="border:1px solid black;">{{ item.product.price |mul:rate_usd.rate_usd|floatformat:2}} Br</td>
+                    <td style="border:1px solid black;">{{ item.total_price |mul:rate_usd.rate_usd|floatformat:2}} Br</td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
 
     <div style="margin-bottom:150px" class="product__order-total-amount">
-        <strong>Общая сумма заказа:</strong> {{ order.total_amount }} руб.
+        <strong>Общая сумма заказа:</strong> {{ order.total_amount  |mul:rate_usd.rate_usd|floatformat:2}} Br
     </div>
 
 
